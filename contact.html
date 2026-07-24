@@ -1,0 +1,161 @@
+--- contact.html (原始)
+
+
++++ contact.html (修改后)
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kem's Bakery - Contact</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div class="container header-content">
+            <div class="logo-section">
+                <img src="https://placehold.co/100x100/7b3f00/fdf6ec?text=KB" alt="Kem's Bakery Logo" class="logo">
+                <div class="brand-info">
+                    <h1>Kem's Bakery</h1>
+                    <p class="tagline">Baked fresh daily in Georgetown, Guyana</p>
+                </div>
+            </div>
+            <button class="hamburger" aria-label="Toggle navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="menu.html">Menu</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="gallery.html">Gallery</a></li>
+                    <li><a href="contact.html" class="active">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="page-header">
+            <div class="container">
+                <h2>Contact Us</h2>
+            </div>
+        </section>
+
+        <section class="contact-section">
+            <div class="container">
+                <div class="contact-grid">
+                    <div class="contact-form-wrapper card">
+                        <h3>Send Us a Message</h3>
+                        <form id="contactForm">
+                            <div class="form-group">
+                                <label for="name">Your Name</label>
+                                <input type="text" id="name" name="name" placeholder="Enter your full name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email Address</label>
+                                <input type="email" id="email" name="email" placeholder="Enter your email address" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="phone">Phone Number</label>
+                                <input type="tel" id="phone" name="phone" placeholder="Enter your phone number">
+                            </div>
+                            <div class="form-group">
+                                <label for="orderType">Order Type</label>
+                                <select id="orderType" name="orderType">
+                                    <option value="">Select an option</option>
+                                    <option value="general">General Inquiry</option>
+                                    <option value="custom-cake">Custom Cake</option>
+                                    <option value="catering">Catering</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="message">Message</label>
+                                <textarea id="message" name="message" rows="5" placeholder="How can we help you?" required></textarea>
+                            </div>
+                            <button type="submit" class="btn">Send Message</button>
+                        </form>
+                    </div>
+
+                    <div class="contact-info-wrapper">
+                        <div class="card contact-info-card">
+                            <h3>Our Location</h3>
+                            <p>123 Main Street<br>Georgetown, Guyana</p>
+                            <div class="map-placeholder">
+                                <img src="https://placehold.co/400x200/7b3f00/fdf6ec?text=Map+Location" alt="Map of bakery location">
+                            </div>
+                        </div>
+
+                        <div class="card contact-info-card">
+                            <h3>Contact Information</h3>
+                            <p><strong>Phone:</strong> (592) 555-0123</p>
+                            <p><strong>Email:</strong> info@kemsbakery.com</p>
+                            <p><strong>Fax:</strong> (592) 555-0124</p>
+                        </div>
+
+                        <div class="card contact-info-card">
+                            <h3>Operating Hours</h3>
+                            <table class="hours-table">
+                                <tbody>
+                                    <tr>
+                                        <td>Monday</td>
+                                        <td>6:00 AM - 8:00 PM</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Tuesday</td>
+                                        <td>6:00 AM - 8:00 PM</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Wednesday</td>
+                                        <td>6:00 AM - 8:00 PM</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Thursday</td>
+                                        <td>6:00 AM - 8:00 PM</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Friday</td>
+                                        <td>6:00 AM - 8:00 PM</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Saturday</td>
+                                        <td>7:00 AM - 6:00 PM</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Sunday</td>
+                                        <td>7:00 AM - 6:00 PM</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Kem's Bakery</h4>
+                    <p>123 Main Street<br>Georgetown, Guyana</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact Us</h4>
+                    <p>Phone: (592) 555-0123<br>Email: info@kemsbakery.com</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Operating Hours</h4>
+                    <p>Mon - Fri: 6:00 AM - 8:00 PM<br>Sat - Sun: 7:00 AM - 6:00 PM</p>
+                </div>
+            </div>
+            <p class="copyright">&copy; 2024 Kem's Bakery. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
