@@ -63,6 +63,8 @@ nav a:hover {
     color: #fdf6ec;
     padding: 0.5rem 1rem;
     text-align: right;
+    background: none;
+    border: none;
 }
 
 /* Main Content Container */
@@ -70,6 +72,13 @@ nav a:hover {
     max-width: 900px;
     margin: 2rem auto;
     padding: 0 1.5rem;
+}
+
+h2 {
+    color: #7b3f00;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    font-size: 2rem;
 }
 
 /* Cards */
@@ -106,6 +115,7 @@ nav a:hover {
     margin-top: 1rem;
     border: none;
     cursor: pointer;
+    text-align: center;
 }
 
 .btn:hover {
@@ -118,6 +128,7 @@ table {
     border-collapse: collapse;
     margin: 1.5rem 0;
     background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
 }
 
 th, td {
@@ -168,6 +179,10 @@ footer {
     margin-top: 3rem;
 }
 
+footer p {
+    margin: 0.25rem 0;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
     .hamburger {
@@ -187,6 +202,11 @@ footer {
     nav ul li {
         text-align: center;
         border-top: 1px solid #7b3f00;
+    }
+
+    nav ul li a {
+        display: block;
+        padding: 1rem;
     }
 
     .contact-split {
