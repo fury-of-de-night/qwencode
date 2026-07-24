@@ -1,124 +1,195 @@
---- script.js (原始)
-
-
-+++ script.js (修改后)
-/**
- * Kem's Bakery - JavaScript
- * Minimal vanilla JS for mobile navigation and contact form handling
- */
-
-// ============================================
-// MOBILE NAVIGATION TOGGLE
-// ============================================
-
-/**
- * Toggles the mobile navigation menu when hamburger is clicked
- */
-function toggleMobileNav() {
-    const hamburger = document.querySelector('.hamburger');
-    const nav = document.querySelector('nav');
-
-    if (hamburger && nav) {
-        hamburger.addEventListener('click', function() {
-            nav.classList.toggle('active');
-
-            // Animate hamburger to X shape (optional enhancement)
-            const spans = hamburger.querySelectorAll('span');
-            if (nav.classList.contains('active')) {
-                spans[0].style.transform = 'rotate(45deg) translate(5px, 5px)';
-                spans[1].style.opacity = '0';
-                spans[2].style.transform = 'rotate(-45deg) translate(7px, -6px)';
-            } else {
-                spans[0].style.transform = 'none';
-                spans[1].style.opacity = '1';
-                spans[2].style.transform = 'none';
-            }
-        });
-    }
+/* Kem's Bakery - Global Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-// ============================================
-// CONTACT FORM HANDLING
-// ============================================
-
-/**
- * Handles contact form submission with validation
- * @param {Event} event - The form submit event
- */
-function handleContactFormSubmit(event) {
-    event.preventDefault();
-
-    const form = document.getElementById('contactForm');
-
-    if (!form) return;
-
-    // Get form values
-    const name = document.getElementById('name').value.trim();
-    const email = document.getElementById('email').value.trim();
-    const message = document.getElementById('message').value.trim();
-
-    // Frontend validation
-    let isValid = true;
-    let errorMessage = '';
-
-    if (!name) {
-        isValid = false;
-        errorMessage += 'Name is required.\n';
-    }
-
-    if (!email) {
-        isValid = false;
-        errorMessage += 'Email is required.\n';
-    } else if (!isValidEmail(email)) {
-        isValid = false;
-        errorMessage += 'Please enter a valid email address.\n';
-    }
-
-    if (!message) {
-        isValid = false;
-        errorMessage += 'Message is required.\n';
-    }
-
-    // Show alert if validation fails
-    if (!isValid) {
-        alert(errorMessage);
-        return;
-    }
-
-    // If valid, show success message and clear form
-    alert('Thank you! Your message has been sent.');
-    form.reset();
+body {
+    font-family: 'Georgia', serif;
+    background-color: #fdf6ec;
+    color: #333;
+    line-height: 1.6;
 }
 
-/**
- * Validates email format using regex
- * @param {string} email - The email to validate
- * @returns {boolean} - True if valid email format
- */
-function isValidEmail(email) {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
+/* Header & Navigation */
+header {
+    background-color: #7b3f00;
+    color: #fdf6ec;
+    padding: 1.5rem 0;
+    text-align: center;
 }
 
-/**
- * Initializes contact form event listener
- */
-function initContactForm() {
-    const form = document.getElementById('contactForm');
+header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+}
 
-    if (form) {
-        form.addEventListener('submit', handleContactFormSubmit);
+header p {
+    font-style: italic;
+    margin-bottom: 1rem;
+}
+
+nav {
+    background-color: #5a2d00;
+    padding: 0.5rem 0;
+    position: relative;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+}
+
+nav a {
+    color: #fdf6ec;
+    text-decoration: none;
+    font-weight: bold;
+    padding: 0.5rem 1rem;
+    transition: background-color 0.3s;
+}
+
+nav a:hover {
+    background-color: #7b3f00;
+    border-radius: 4px;
+}
+
+.hamburger {
+    display: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #fdf6ec;
+    padding: 0.5rem 1rem;
+    text-align: right;
+}
+
+/* Main Content Container */
+.container {
+    max-width: 900px;
+    margin: 2rem auto;
+    padding: 0 1.5rem;
+}
+
+/* Cards */
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin: 2rem 0;
+}
+
+.card {
+    background-color: #fff;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+.card img {
+    max-width: 100%;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+}
+
+/* Buttons */
+.btn {
+    display: inline-block;
+    background-color: #7b3f00;
+    color: #fdf6ec;
+    padding: 0.75rem 1.5rem;
+    text-decoration: none;
+    border-radius: 4px;
+    font-weight: bold;
+    margin-top: 1rem;
+    border: none;
+    cursor: pointer;
+}
+
+.btn:hover {
+    background-color: #5a2d00;
+}
+
+/* Tables */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5rem 0;
+    background-color: #fff;
+}
+
+th, td {
+    padding: 0.75rem;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: #7b3f00;
+    color: #fdf6ec;
+}
+
+/* Forms */
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-family: 'Georgia', serif;
+}
+
+/* Contact Page Split */
+.contact-split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+}
+
+/* Footer */
+footer {
+    background-color: #7b3f00;
+    color: #fdf6ec;
+    text-align: center;
+    padding: 1.5rem 0;
+    margin-top: 3rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .hamburger {
+        display: block;
+    }
+
+    nav ul {
+        display: none;
+        flex-direction: column;
+        gap: 0;
+    }
+
+    nav ul.active {
+        display: flex;
+    }
+
+    nav ul li {
+        text-align: center;
+        border-top: 1px solid #7b3f00;
+    }
+
+    .contact-split {
+        grid-template-columns: 1fr;
     }
 }
-
-// ============================================
-// INITIALIZATION
-// ============================================
-
-/**
- * Initialize all JavaScript functionality when DOM is ready
- */
-document.addEventListener('DOMContentLoaded', function() {
-    toggleMobileNav();
-    initContactForm();
-});
