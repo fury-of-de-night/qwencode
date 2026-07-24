@@ -1,11 +1,4 @@
-/**
- * Kem's Bakery - JavaScript
- * Minimal vanilla JS for mobile navigation and contact form handling
- */
-
-// ============================================
-// MOBILE NAVIGATION TOGGLE
-// ============================================
+// Mobile Navigation Toggle
 function toggleMobileNav() {
     const hamburger = document.querySelector('.hamburger');
     const nav = document.querySelector('nav ul');
@@ -17,9 +10,7 @@ function toggleMobileNav() {
     }
 }
 
-// ============================================
-// CONTACT FORM HANDLING
-// ============================================
+// Contact Form Handling
 function handleContactFormSubmit(event) {
     event.preventDefault();
 
@@ -67,9 +58,7 @@ function initContactForm() {
     }
 }
 
-// ============================================
-// INITIALIZATION
-// ============================================
+// Initialization
 document.addEventListener('DOMContentLoaded', function() {
     toggleMobileNav();
     initContactForm();
