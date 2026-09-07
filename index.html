@@ -1,70 +1,141 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kem's Bakery - Home</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <header>
-        <h1>Kem's Bakery</h1>
-        <p>Baked fresh daily in Georgetown, Guyana</p>
-    </header>
-    <nav>
-        <button class="hamburger" aria-label="Toggle navigation">☰</button>
-        <ul>
-            <li><a href="index.html">Home</a></li>
-            <li><a href="menu.html">Menu</a></li>
-            <li><a href="about.html">About Us</a></li>
-            <li><a href="gallery.html">Gallery</a></li>
-            <li><a href="contact.html">Contact</a></li>
-        </ul>
-    </nav>
-
-    <main class="container">
-        <section style="text-align: center; margin-bottom: 3rem;">
-            <h2>Welcome to Kem's Bakery</h2>
-            <p>Experience the finest artisanal baked goods in the heart of Georgetown.</p>
-            <a href="menu.html" class="btn">See Our Menu</a>
-        </section>
-
-        <section>
-            <h2>Our Signature Items</h2>
-            <div class="card-grid">
-                <div class="card">
-                    <img src="images/coconut bread.jpeg" alt="Coconut Bread" width="400" height="300">
-                    <h3>Coconut Bread</h3>
-                    <p>Traditional Guyanese coconut bread with a perfect balance of sweetness and texture.</p>
-                </div>
-                <div class="card">
-                    <img src="images/butter bake.jpeg" alt="Classic Butter Cake" width="400" height="300">
-                    <h3>Classic Butter Cake</h3>
-                    <p>Rich, moist butter cake made with premium ingredients and love.</p>
-                </div>
-                <div class="card">
-                    <img src="images/cassavapone.jpeg" alt="Cassava Pone"  width="400" height="300">
-                    <h3>Cassava Pone</h3>
-                    <p>Authentic Caribbean cassava pone with coconut and warm spices.</p>
-                </div>
-            </div>
-        </section>
-
-        <section style="text-align: center; margin-top: 3rem;">
-            <h2>A Legacy of Baking Excellence</h2>
-            <p>For over two decades, Kem's Bakery has been serving the Georgetown community with freshly baked goods that bring families together. Our recipes have been passed down through generations, combining traditional Guyanese baking techniques with modern craftsmanship.</p>
-            <a href="about.html" class="btn">Learn More About Us</a>
-        </section>
-    </main>
-
-    <footer>
-        <p><strong>Kem's Bakery</strong></p>
-        <p>123 Main Street, Georgetown, Guyana</p>
-        <p>Phone: (592) 555-0123 | Email: info@kemsbakery.com</p>
-        <p>Mon - Fri: 6:00 AM - 8:00 PM | Sat - Sun: 7:00 AM - 6:00 PM</p>
-        <p>&copy; 2024 Kem's Bakery. All rights reserved.</p>
-    </footer>
-
-    <script src="script.js"></script>
-</body>
-</html>
+  <html lang="en">
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Period Tracker</title>
+  <style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:system-ui,-apple-system,sans-serif;background:#0a0a0a;color:#e0e0e0;min-height:100vh;display:flex;justify-content:center;al
+  ign-items:center;padding:20px}
+  .container{max-width:400px;width:100%}
+  .wheel{width:200px;height:200px;margin:0 auto 30px;position:relative}
+  .wheel svg{transform:rotate(-90deg)}
+  .wheel-text{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center}
+  .days-num{font-size:48px;font-weight:700;display:block}
+  .days-label{font-size:14px;color:#888;text-transform:uppercase;letter-spacing:1px}
+  button{width:100%;padding:16px;background:#8b5cf6;color:#fff;border:none;border-radius:8px;font-size:16px;font-weight:600;cursor:pointer;mar
+  gin-bottom:30px;transition:background .2s}
+  button:hover{background:#7c3aed}
+  button:active{background:#6d28d9}
+  .history{background:#151515;border-radius:8px;padding:20px;max-height:300px;overflow-y:auto}
+  .history h2{font-size:18px;margin-bottom:16px;color:#a0a0a0}
+  .history-item{padding:12px;background:#1f1f1f;border-radius:6px;margin-bottom:8px;font-size:14px}
+  .history-item:last-child{margin-bottom:0}
+  .history-empty{color:#666;font-size:14px;text-align:center;padding:20px 0}
+  .history::-webkit-scrollbar{width:8px}
+  .history::-webkit-scrollbar-track{background:#151515}
+  .history::-webkit-scrollbar-thumb{background:#333;border-radius:4px}
+  .history::-webkit-scrollbar-thumb:hover{background:#444}
+  </style>
+  </head>
+  <body>
+  <div class="container">
+  <div class="wheel">
+  <svg width="200" height="200">
+  <circle cx="100" cy="100" r="90" fill="none" stroke="#1f1f1f" stroke-width="20"/>
+  <circle id="progress" cx="100" cy="100" r="90" fill="none" stroke="#8b5cf6" stroke-width="20" stroke-dasharray="565.48" 
+  stroke-dashoffset="565.48" stroke-linecap="round"/>
+  </svg>
+  <div class="wheel-text">
+  <span class="days-num" id="daysNum">28</span>
+  <span class="days-label">days left</span>
+  </div>
+  </div>
+  <button onclick="logPeriod()">Period Started</button>
+  <div class="history">
+  <h2>History</h2>
+  <div id="historyList"></div>
+  </div>
+  </div>
+  <script>
+  const CYCLE_DAYS=28;
+  function logPeriod(){
+  const now=new Date().toISOString();
+  const history=getHistory();
+  history.unshift(now);
+  localStorage.setItem('periodHistory',JSON.stringify(history));
+  render();
+  }
+  function getHistory(){
+  const data=localStorage.getItem('periodHistory');
+  return data?JSON.parse(data):[];
+  }
+  function getDaysRemaining(){
+  const history=getHistory();
+  if(history.length===0)return CYCLE_DAYS;
+  const last=new Date(history[0]);
+  const now=new Date();
+  const daysSince=Math.floor((now-last)/86400000);
+  const remaining=CYCLE_DAYS-daysSince;
+  return remaining>0?remaining:0;
+  }
+  function formatDate(iso){
+  const d=new Date(iso);
+  return d.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+  }
+  function render(){
+  const days=getDaysRemaining();
+  document.getElementById('daysNum').textContent=days;
+  const circumference=565.48;
+  const offset=circumference-(days/CYCLE_DAYS)*circumference;
+  document.getElementById('progress').style.strokeDashoffset=offset;
+  const history=getHistory();
+  const list=document.getElementById('historyList');
+  if(history.length===0){
+  list.innerHTML='<div class="history-empty">No periods logged yet</div>';
+  if(history.length===0){
+  list.innerHTML='<div class="history-empty">No periods logged yet</div>';
+  }else{
+  list.innerHTML=history.map(date=>`<div class="history-item">${formatDate(date)}</div>`).join('');
+  }
+  function getDaysRemaining(){
+  const history=getHistory();
+  if(history.length===0)return CYCLE_DAYS;
+  const last=new Date(history[0]);
+  const now=new Date();
+  const daysSince=Math.floor((now-last)/86400000);
+  const remaining=CYCLE_DAYS-daysSince;
+  return remaining>0?remaining:0;
+  }
+  function formatDate(iso){
+  const d=new Date(iso);
+  return d.toLocaleDateString('en-US',{month:'short',day:'
+  numeric',year:'numeric'});
+  }
+  function render(){
+  const days=getDaysRemaining();
+  document.getElementById('daysNum').textContent=days;
+  const circumference=565.48;
+  const
+  offset=circumference-(days/CYCLE_DAYS)*circumference;
+  document.getElementById('progress').style.strokeDashoffs
+  et=offset;
+  const history=getHistory();
+  const list=document.getElementById('historyList');
+  if(history.length===0){
+  list.innerHTML='<div class="history-empty">No periods
+  return remaining>0?remaining:0;
+  }
+  function formatDate(iso){
+  const d=new Date(iso);
+  return d.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+  }
+  function render(){
+  const days=getDaysRemaining();
+  document.getElementById('daysNum').textContent=days;
+  const circumference=565.48;
+  const offset=circumference-(days/CYCLE_DAYS)*circumference;
+  document.getElementById('progress').style.strokeDashoffset=offset;
+  const history=getHistory();
+  const list=document.getElementById('historyList');
+  if(history.length===0){
+  list.innerHTML='<div class="history-empty">No periods logged yet</div>';
+  }else{
+  list.innerHTML=history.map(date=>`<div class="history-item">${formatDate(date)}</div>`).join('');
+  }
+  }
+  render();
+  </script>
+  </body>
+  </html>
