@@ -1,1 +1,141 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Period Tracker</title><style>*{margin:0;padding:0;box-sizing:border-box}body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#121212;color:#e0e0e0;min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:20px}.container{max-width:400px;width:100%}h1{text-align:center;margin-bottom:30px;font-weight:300;font-size:1.8rem}.wheel-container{position:relative;display:flex;justify-content:center;margin-bottom:40px}.wheel{width:200px;height:200px}.wheel-info{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center}.days{font-size:3rem;font-weight:bold;color:#ff6b9d}.label{font-size:0.9rem;color:#888;margin-top:5px}.btn{width:100%;padding:16px;background:#ff6b9d;border:none;border-radius:12px;color:white;font-size:1rem;font-weight:600;cursor:pointer;transition:background 0.3s;margin-bottom:30px}.btn:hover{background:#ff5285}.btn:active{transform:scale(0.98)}.history{background:#1e1e1e;border-radius:12px;padding:20px;max-height:300px;overflow-y:auto}.history h2{font-size:1.1rem;margin-bottom:15px;font-weight:400;color:#aaa}.entry{padding:12px 0;border-bottom:1px solid #333;display:flex;justify-content:space-between}.entry:last-child{border-bottom:none}.date{color:#e0e0e0}.cycle-day{color:#ff6b9d;font-size:0.85rem}</style></head><body><div class="container"><h1>Period Tracker</h1><div class="wheel-container"><svg class="wheel" viewBox="0 0 100 100"><circle cx="50" cy="50" r="42" fill="none" stroke="#333" stroke-width="8"/><circle id="progressCircle" cx="50" cy="50" r="42" fill="none" stroke="#ff6b9d" stroke-width="8" stroke-dasharray="263.89" stroke-dashoffset="263.89" stroke-linecap="round"/></svg><div class="wheel-info"><div class="days" id="daysRemaining">--</div><div class="label">days left</div></div></div><button class="btn" id="logBtn">Period Started</button><div class="history"><h2>History</h2><div id="historyList"></div></div></div><script>const STORAGE_KEY='period_tracker_data';let data={cycles:[]};function loadData(){const saved=localStorage.getItem(STORAGE_KEY);if(saved)data=JSON.parse(saved)}function saveData(){localStorage.setItem(STORAGE_KEY,JSON.stringify(data))}function getDaysBetween(date1,date2){const oneDay=24*60*60*1000;return Math.round((date2-date1)/oneDay)}function getLastPeriodStart(){if(data.cycles.length===0)return null;return new Date(data.cycles[data.cycles.length-1])}function getNextPeriodDate(){const last=getLastPeriodStart();if(!last)return null;const cycleLength=28;return new Date(last.getTime()+cycleLength*24*60*60*1000)}function updateWheel(){const next=getNextPeriodDate();const daysEl=document.getElementById('daysRemaining');const circle=document.getElementById('progressCircle');if(!next){daysEl.textContent='--';circle.style.strokeDashoffset='263.89';return}const today=new Date();today.setHours(0,0,0,0);const diff=getDaysBetween(today,next);daysEl.textContent=Math.max(0,diff);const progress=Math.min(1,Math.max(0,(28-diff)/28));const offset=263.89*(1-progress);circle.style.strokeDashoffset=offset}function renderHistory(){const list=document.getElementById('historyList');list.innerHTML='';if(data.cycles.length===0){list.innerHTML='<p style="color:#666;text-align:center;padding:20px">No periods logged yet</p>';return}const sorted=[...data.cycles].sort((a,b)=>new Date(b)-new Date(a));sorted.forEach((dateStr,index)=>{const date=new Date(dateStr);const formatted=date.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});const div=document.createElement('div');div.className='entry';div.innerHTML=`<span class="date">${formatted}</span><span class="cycle-day">Cycle #${data.cycles.length-index}</span>`;list.appendChild(div)})}function logPeriod(){const today=new Date();today.setHours(0,0,0,0);const todayStr=today.toISOString().split('T')[0];const exists=data.cycles.find(d=>d===todayStr);if(exists){alert('Period already logged for today');return}data.cycles.push(todayStr);saveData();updateWheel();renderHistory()}document.getElementById('logBtn').addEventListener('click',logPeriod);loadData();updateWheel();renderHistory()</script></body></html>
+<!DOCTYPE html>
+  <html lang="en">
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Period Tracker</title>
+  <style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:system-ui,-apple-system,sans-serif;background:#0a0a0a;color:#e0e0e0;min-height:100vh;display:flex;justify-content:center;al
+  ign-items:center;padding:20px}
+  .container{max-width:400px;width:100%}
+  .wheel{width:200px;height:200px;margin:0 auto 30px;position:relative}
+  .wheel svg{transform:rotate(-90deg)}
+  .wheel-text{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center}
+  .days-num{font-size:48px;font-weight:700;display:block}
+  .days-label{font-size:14px;color:#888;text-transform:uppercase;letter-spacing:1px}
+  button{width:100%;padding:16px;background:#8b5cf6;color:#fff;border:none;border-radius:8px;font-size:16px;font-weight:600;cursor:pointer;mar
+  gin-bottom:30px;transition:background .2s}
+  button:hover{background:#7c3aed}
+  button:active{background:#6d28d9}
+  .history{background:#151515;border-radius:8px;padding:20px;max-height:300px;overflow-y:auto}
+  .history h2{font-size:18px;margin-bottom:16px;color:#a0a0a0}
+  .history-item{padding:12px;background:#1f1f1f;border-radius:6px;margin-bottom:8px;font-size:14px}
+  .history-item:last-child{margin-bottom:0}
+  .history-empty{color:#666;font-size:14px;text-align:center;padding:20px 0}
+  .history::-webkit-scrollbar{width:8px}
+  .history::-webkit-scrollbar-track{background:#151515}
+  .history::-webkit-scrollbar-thumb{background:#333;border-radius:4px}
+  .history::-webkit-scrollbar-thumb:hover{background:#444}
+  </style>
+  </head>
+  <body>
+  <div class="container">
+  <div class="wheel">
+  <svg width="200" height="200">
+  <circle cx="100" cy="100" r="90" fill="none" stroke="#1f1f1f" stroke-width="20"/>
+  <circle id="progress" cx="100" cy="100" r="90" fill="none" stroke="#8b5cf6" stroke-width="20" stroke-dasharray="565.48" 
+  stroke-dashoffset="565.48" stroke-linecap="round"/>
+  </svg>
+  <div class="wheel-text">
+  <span class="days-num" id="daysNum">28</span>
+  <span class="days-label">days left</span>
+  </div>
+  </div>
+  <button onclick="logPeriod()">Period Started</button>
+  <div class="history">
+  <h2>History</h2>
+  <div id="historyList"></div>
+  </div>
+  </div>
+  <script>
+  const CYCLE_DAYS=28;
+  function logPeriod(){
+  const now=new Date().toISOString();
+  const history=getHistory();
+  history.unshift(now);
+  localStorage.setItem('periodHistory',JSON.stringify(history));
+  render();
+  }
+  function getHistory(){
+  const data=localStorage.getItem('periodHistory');
+  return data?JSON.parse(data):[];
+  }
+  function getDaysRemaining(){
+  const history=getHistory();
+  if(history.length===0)return CYCLE_DAYS;
+  const last=new Date(history[0]);
+  const now=new Date();
+  const daysSince=Math.floor((now-last)/86400000);
+  const remaining=CYCLE_DAYS-daysSince;
+  return remaining>0?remaining:0;
+  }
+  function formatDate(iso){
+  const d=new Date(iso);
+  return d.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+  }
+  function render(){
+  const days=getDaysRemaining();
+  document.getElementById('daysNum').textContent=days;
+  const circumference=565.48;
+  const offset=circumference-(days/CYCLE_DAYS)*circumference;
+  document.getElementById('progress').style.strokeDashoffset=offset;
+  const history=getHistory();
+  const list=document.getElementById('historyList');
+  if(history.length===0){
+  list.innerHTML='<div class="history-empty">No periods logged yet</div>';
+  if(history.length===0){
+  list.innerHTML='<div class="history-empty">No periods logged yet</div>';
+  }else{
+  list.innerHTML=history.map(date=>`<div class="history-item">${formatDate(date)}</div>`).join('');
+  }
+  function getDaysRemaining(){
+  const history=getHistory();
+  if(history.length===0)return CYCLE_DAYS;
+  const last=new Date(history[0]);
+  const now=new Date();
+  const daysSince=Math.floor((now-last)/86400000);
+  const remaining=CYCLE_DAYS-daysSince;
+  return remaining>0?remaining:0;
+  }
+  function formatDate(iso){
+  const d=new Date(iso);
+  return d.toLocaleDateString('en-US',{month:'short',day:'
+  numeric',year:'numeric'});
+  }
+  function render(){
+  const days=getDaysRemaining();
+  document.getElementById('daysNum').textContent=days;
+  const circumference=565.48;
+  const
+  offset=circumference-(days/CYCLE_DAYS)*circumference;
+  document.getElementById('progress').style.strokeDashoffs
+  et=offset;
+  const history=getHistory();
+  const list=document.getElementById('historyList');
+  if(history.length===0){
+  list.innerHTML='<div class="history-empty">No periods
+  return remaining>0?remaining:0;
+  }
+  function formatDate(iso){
+  const d=new Date(iso);
+  return d.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+  }
+  function render(){
+  const days=getDaysRemaining();
+  document.getElementById('daysNum').textContent=days;
+  const circumference=565.48;
+  const offset=circumference-(days/CYCLE_DAYS)*circumference;
+  document.getElementById('progress').style.strokeDashoffset=offset;
+  const history=getHistory();
+  const list=document.getElementById('historyList');
+  if(history.length===0){
+  list.innerHTML='<div class="history-empty">No periods logged yet</div>';
+  }else{
+  list.innerHTML=history.map(date=>`<div class="history-item">${formatDate(date)}</div>`).join('');
+  }
+  }
+  render();
+  </script>
+  </body>
+  </html>
